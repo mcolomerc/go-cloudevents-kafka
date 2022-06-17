@@ -75,7 +75,7 @@ Kafka headers:
   },
   {
     "key": "ce_type",
-    "stringValue": "mcolomerc/kafka-producer/event"
+    "stringValue": "mcolomerc/kafka-client/event"
   },
   {
     "key": "content-type",
@@ -152,16 +152,16 @@ c, err := cloudevents.NewClient(protocol, cloudevents.WithTimeNow(), cloudevents
 * Start the consumer:
 
 ```go 
-	go func() { 
-		var recvCount int32
-		err = c.StartReceiver(context.TODO(), func(ctx context.Context, event cloudevents.Event) {
-			consume(ctx, event)
-			if atomic.AddInt32(&recvCount, 1) == count {
-				done <- struct{}{}
-			}
-		})
-	 ...
-	}()
+go func() { 
+  var recvCount int32
+  err = c.StartReceiver(context.TODO(), func(ctx context.Context, event cloudevents.Event) {
+   consume(ctx, event)
+   if atomic.AddInt32(&recvCount, 1) == count {
+     done <- struct{}{}
+   }
+  })
+...
+}()
 ```
 
 * Event processing: 
